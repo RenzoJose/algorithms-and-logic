@@ -24,12 +24,12 @@ const products = [
 // }
 
 const getCategoryPriceRange = ( products ) => {
-    return products.reduce ( ( acc, product ) => {
-       const { category, price } = product;
-       const princeRange =  price < 50 ? 'cheap' : price <= 100 ? 'medium' : 'expensive';
-       acc[ category ][ princeRange ].push( product);
-        return acc;
-    }, { electronics: { cheap: [], medium: [], expensive: [] }, clothing: { cheap: [], medium: [], expensive: [] } } )
+  return products.reduce ( ( acc, product ) => {
+    const { category, price } = product;
+    const princeRange =  price < 50 ? 'cheap' : price <= 100 ? 'medium' : 'expensive';
+    acc[ category ][ princeRange ].push( product);
+    return acc;
+  }, { electronics: { cheap: [], medium: [], expensive: [] }, clothing: { cheap: [], medium: [], expensive: [] } } )
 }
 console.log("Exercice 1:");
 console.log(getCategoryPriceRange(products));
@@ -43,7 +43,7 @@ const sentences = [
   "JavaScript es genial",
   "Me encanta programar en JavaScript",
   "Reduce es muy poderoso",
-  "JavaScript JavaScript JavaScript"
+  "JavaScript     JavaScript JavaScript"
 ];
 // Salida esperada:
 // {
@@ -58,31 +58,36 @@ const sentences = [
 
 
 const analyzeText = ( arrySentences ) => {
-    let totalWordLength = 0;
-    return arrySentences.reduce( ( acc, sentence ) => {
-        // const words = sentence.toLowerCase().match(/\b\w+\b/g) || [];
-        const words = sentence.toLowerCase().split(' ').filter( word => word.trim() !== '' ).map( word => word.normalize('NFD').replace(/[\u0300-\u036f]/g, "") ); // elimina tildes y caracteres especiales
-          
-        acc.totalWords += words.length; // summa la longitud del array words cada vez que itera
+  let totalWordLength = 0;
+  return arrySentences.reduce( ( acc, sentence ) => {
+      // const words = sentence.toLowerCase().match(/\b\w+\b/g) || [];
 
-        words.forEach( word => {
-            acc.wordFrequency[word] = acc.wordFrequency[word] ? acc.wordFrequency[word] + 1 : 1;
+    //1. creo un array de los elementos y elimino tildes y caracteres especiales
+    const words = sentence.toLowerCase().split(' ')
+    .filter( word => word.trim() !== '' ).map( word => word.normalize('NFD').replace(/[\u0300-\u036f]/g, "") ); 
+    
+    // 2. actualizo las propiedades del acumulador, sumando la longitud cada vez que itera (para saber cuantas palabras hay en total)
+    acc.totalWords += words.length;
 
-            acc.uniqueWords = new Set([...Object.keys(acc.wordFrequency)]).size ; // cantidad de palabras unicas
-            
-            if (word.length > acc.longestWord.length) acc.longestWord = word; // palabra mas larga
-            acc.averageWordLength = ((totalWordLength += word.length) / acc.totalWords).toFixed(2) * 1; // promedio del largo de palabras
-        }); 
-            acc.sentenceCount += 1;
-        return acc;
-    }, {
-        totalWords: 0,
-        uniqueWords: 0,
-        wordFrequency: {},
-        longestWord: "",
-        averageWordLength: 0,
-        sentenceCount: 0
-    } )             
+    // 3. recorro el array de palabras para actualizar la frecuencia de cada palabra, la palabra mas larga y el promedio del largo de palabras
+    words.forEach( word => {
+      acc.wordFrequency[word] = acc.wordFrequency[word] ? acc.wordFrequency[word] + 1 : 1; // frecuencia de cada palabra
+
+      acc.uniqueWords = new Set([...Object.keys(acc.wordFrequency)]).size ; // cantidad de palabras unicas
+      
+      if (word.length > acc.longestWord.length) acc.longestWord = word; // palabra mas larga
+      acc.averageWordLength = ((totalWordLength += word.length) / acc.totalWords).toFixed(2) * 1; // promedio del largo de palabras
+    }); 
+      acc.sentenceCount += 1; // cantidad de oraciones
+    return acc;
+  }, {
+      totalWords: 0,
+      uniqueWords: 0,
+      wordFrequency: {},
+      longestWord: "",
+      averageWordLength: 0,
+      sentenceCount: 0
+  } )             
 
 };
 console.log("Exercise 2:");
@@ -121,27 +126,26 @@ const flatData = [
 
 const buildTree = ( flatData ) => {
 
-    const idToNodeMap = flatData.reduce( ( acc, data ) => {
-        const { parentId, ...restData } = data;
-        acc[data.id] = { ...restData , children: [] }
-        return acc;
-    }, {} );
-
-    let root ;
-
-    flatData.forEach( data  => {
-        ( data.parentId )
-        ? idToNodeMap[data.parentId].children.push( idToNodeMap[data.id] )
-        : root = idToNodeMap[data.id];  
-        console.log(root);
-         
-    })
-    return root;
+  //1. creo un mapa de id a nodo para acceso rápido
+  const idToNodeMap = flatData.reduce( ( acc, data ) => {
+      const { parentId, ...restData } = data;
+      acc[data.id] = { ...restData , children: [] }
+      return acc;
+  }, {} );
+// 2. construyo el árbol asignando hijos a sus padres
+  let root ;
+  flatData.forEach( data  => {
+    ( data.parentId )
+    ? idToNodeMap[data.parentId].children.push( idToNodeMap[data.id] )
+    : root = idToNodeMap[data.id];  
+           
+  })
+  return root;
 };
 
 console.log("Exercices 3:");
-console.log((buildTree(flatData)));
-console.log(flatData);
+console.log(( buildTree( flatData ) ));
+
 
 
 //****** Ejercicio 4: Merge y agregar datos de múltiples fuentes *******//
