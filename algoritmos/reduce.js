@@ -99,7 +99,7 @@ console.log(analyzeText(sentences));
 // Entrada:
 const flatData = [
   { id: 1, name: "Root", parentId: null },
-  { id: 2, name: "Child 1", parentId: 1},
+  { id: 2, name: "Child 1", parentId: null},
   { id: 3, name: "Child 2", parentId: 1 },
   { id: 4, name: "Grandchild 1", parentId: 2 },
   { id: 5, name: "Grandchild 2", parentId: 2 },
@@ -133,11 +133,12 @@ const buildTree = ( flatData ) => {
       return acc;
   }, {} );
 // 2. construyo el árbol asignando hijos a sus padres
-  let root ;
+  const root = [] ;
   flatData.forEach( data  => {
     ( data.parentId )
     ? idToNodeMap[data.parentId].children.push( idToNodeMap[data.id] )
-    : root = idToNodeMap[data.id];  
+    : root.push(idToNodeMap[data.id]);
+     
            
   })
   return root;
@@ -178,10 +179,29 @@ const sales = [
 // }
 
 const aggregateSales = (sales) => {
-  // Tu código aquí
+  return sales.reduce( ( acc, sale ) => {
+    const { seller, product, amount, quantity } = sale;
+
+    // 1. Si el vendedor no existe en el acumulador, inicializarlo
+    if (!acc[seller]){ 
+      acc[seller] = { totalSales: 0, products: {} }
+    };
+
+    // 2. Actualizar las ventas totales del vendedor 
+    acc[seller].totalSales += amount * quantity;
+
+    // 3. Si el producto no existe para el vendedor, inicializarlo
+    if (!acc[seller].products[product]){ 
+      acc[seller].products[product] = { quantity: 0, total: 0 }
+    };
+    
+    acc[seller].products[product].quantity += quantity;
+    acc[seller].products[product].total += amount * quantity;
+    return acc;
+  }, {});
 };
 
-console.log("\nEjercicio 4:");
+console.log("Exercices 4:");
 console.log(aggregateSales(sales));
 
 
@@ -216,10 +236,34 @@ const transactions = [
 // }
 
 const processTransactions = (transactions) => {
-  // Tu código aquí
+  return transactions
+  .filter( tx => tx.status === "completed" ) // 1. filtrar transacciones completadas
+  .reduce( ( acc, tx ) => {
+    // 2. inicializar usuario en el acumulador si no existe
+    if (!acc[ tx.user ] ){
+      acc[ tx.user ] = { balance: 0, deposits: 0, withdrawals: 0, transactionCount: 0, hasLargeTransaction: false }
+    }
+    
+    // 3. agrupar por usuario y calcular estadísticas
+    acc[ tx.user ].transactionCount += 1;
+
+    if ( tx.type === "deposit" ) {
+      acc[ tx.user ].deposits += tx.amount;
+      acc[ tx.user ].balance += tx.amount;
+ 
+    } else if ( tx.type === "withdrawal" ) {
+      acc[ tx.user ].withdrawals += tx.amount;
+      acc[ tx.user ].balance -= tx.amount;
+    }   
+    if ( tx.amount > 2500 ) {
+      acc[ tx.user ].hasLargeTransaction = true;
+    }
+    return acc;
+
+  }, {})       
 };
 
-console.log("\nEjercicio 5:");
+console.log("Exercices 5:");
 console.log(processTransactions(transactions));
 
 
