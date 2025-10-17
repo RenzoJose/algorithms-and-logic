@@ -1,49 +1,12 @@
-//****** Ejercicio 1: Agrupar por múltiples criterios *******//
-// Agrupar productos por categoría Y rango de precio (barato: <50, medio: 50-100, caro: >100)
-// Entrada:
-const products = [
-  { name: "Laptop", category: "electronics", price: 1200 },
-  { name: "Mouse", category: "electronics", price: 25 },
-  { name: "Shirt", category: "clothing", price: 45 },
-  { name: "Jacket", category: "clothing", price: 150 },
-  { name: "Keyboard", category: "electronics", price: 75 }
-];
 
-// Salida esperada:
-// {
-//   electronics: {
-//     barato: [{ name: "Mouse", category: "electronics", price: 25 }],
-//     medio: [{ name: "Keyboard", category: "electronics", price: 75 }],
-//     caro: [{ name: "Laptop", category: "electronics", price: 1200 }]
-//   },
-//   clothing: {
-//     barato: [{ name: "Shirt", category: "clothing", price: 45 }],
-//     medio: [],
-//     caro: [{ name: "Jacket", category: "clothing", price: 150 }]
-//   }
-// }
-
-const getCategoryPriceRange = ( products ) => {
-  return products.reduce ( ( acc, product ) => {
-    const { category, price } = product;
-    const princeRange =  price < 50 ? 'cheap' : price <= 100 ? 'medium' : 'expensive';
-    acc[ category ][ princeRange ].push( product);
-    return acc;
-  }, { electronics: { cheap: [], medium: [], expensive: [] }, clothing: { cheap: [], medium: [], expensive: [] } } )
-}
-console.log("Exercice 1:");
-console.log(getCategoryPriceRange(products));
-
-
-
-//****** Ejercicio 2: Estadísticas de texto avanzadas *******//
+//****** Ejercicio 1: Estadísticas de texto avanzadas *******//
 // Analizar un array de oraciones y obtener estadísticas completas
 // Entrada:
 const sentences = [
   "JavaScript es genial",
   "Me encanta programar en JavaScript",
   "Reduce es muy poderoso",
-  "JavaScript     JavaScript JavaScript"
+  "JavaScript JavaScript JavaScript"
 ];
 // Salida esperada:
 // {
@@ -54,13 +17,17 @@ const sentences = [
 //   averageWordLength: 6.15,
 //   sentenceCount: 4
 
-
-
+// note: para contar palabras ignorando mayúsculas, tildes y caracteres especiales
+// puedes usar regex y métodos de string como toLowerCase() y normalize()
+// Ejemplo para extraer palabras de una oración:
+// const sentence = "¡Hola, mundo!";
+// const words = sentence.toLowerCase().match(/\b\w+\b/g) || [];  
+ // const words = sentence.toLowerCase().match(/\b\w+\b/g) || [];
 
 const analyzeText = ( arrySentences ) => {
   let totalWordLength = 0;
   return arrySentences.reduce( ( acc, sentence ) => {
-      // const words = sentence.toLowerCase().match(/\b\w+\b/g) || [];
+     
 
     //1. creo un array de los elementos y elimino tildes y caracteres especiales
     const words = sentence.toLowerCase().split(' ')
@@ -94,101 +61,17 @@ console.log("Exercise 2:");
 console.log(analyzeText(sentences));
 
 
-//****** Ejercicio 3: Transformar array plano en árbol jerárquico *******//
-// Convertir un array plano con relaciones parent-child en estructura de árbol
-// Entrada:
-const flatData = [
-  { id: 1, name: "Root", parentId: null },
-  { id: 2, name: "Child 1", parentId: 1},
-  { id: 3, name: "Child 2", parentId: 1 },
-  { id: 4, name: "Grandchild 1", parentId: 2 },
-  { id: 5, name: "Grandchild 2", parentId: 2 },
-  { id: 6, name: "Child 3", parentId: 1 }
-];
-
-// Salida esperada:
-// {
-//   id: 1,
-//   name: "Root",
-//   children: [
-//     {
-//       id: 2,
-//       name: "Child 1",
-//       children: [
-//         { id: 4, name: "Grandchild 1", children: [] },
-//         { id: 5, name: "Grandchild 2", children: [] }
-//       ]
-//     },
-//     { id: 3, name: "Child 2", children: [] },
-//     { id: 6, name: "Child 3", children: [] }
-//   ]
-// }
-
-const buildTree = ( flatData ) => {
-
-  //1. creo un mapa de id a nodo para acceso rápido
-  const idToNodeMap = flatData.reduce( ( acc, data ) => {
-      const { parentId, ...restData } = data;
-      acc[data.id] = { ...restData , children: [] }
-      return acc;
-  }, {} );
-// 2. construyo el árbol asignando hijos a sus padres
-  let root ;
-  flatData.forEach( data  => {
-    ( data.parentId )
-    ? idToNodeMap[data.parentId].children.push( idToNodeMap[data.id] )
-    : root = idToNodeMap[data.id];  
-           
-  })
-  return root;
-};
-
-console.log("Exercices 3:");
-console.log(( buildTree( flatData ) ));
 
 
-
-//****** Ejercicio 4: Merge y agregar datos de múltiples fuentes *******//
-// Combinar ventas por vendedor y producto, calculando totales
-// Entrada:
-const sales = [
-  { seller: "Ana", product: "Laptop", amount: 1200, quantity: 1 },
-  { seller: "Ana", product: "Mouse", amount: 25, quantity: 2 },
-  { seller: "Carlos", product: "Laptop", amount: 1200, quantity: 1 },
-  { seller: "Ana", product: "Laptop", amount: 1200, quantity: 1 },
-  { seller: "Carlos", product: "Keyboard", amount: 75, quantity: 3 }
-];
-
-// Salida esperada:
-// {
-//   Ana: {
-//     totalSales: 2450,
-//     products: {
-//       Laptop: { quantity: 2, total: 2400 },
-//       Mouse: { quantity: 2, total: 50 }
-//     }
-//   },
-//   Carlos: {
-//     totalSales: 1425,
-//     products: {
-//       Laptop: { quantity: 1, total: 1200 },
-//       Keyboard: { quantity: 3, total: 225 }
-//     }
-//   }
-// }
-
-const aggregateSales = (sales) => {
-  // Tu código aquí
-};
-
-console.log("\nEjercicio 4:");
-console.log(aggregateSales(sales));
 
 
 //****** Ejercicio 5: Pipeline de transformaciones complejas *******//
-// Procesar transacciones: filtrar válidas, agrupar por usuario, calcular balance y detectar anomalías
+// Procesar transacciones:
+//  filtrar válidas ---> status: "completed",
+//  agrupar por usuario, --> user1, user2
+//  calcular balance y detectar anomalías
 // Entrada:
-const transactions = [
+const transaction = [
   { id: 1, user: "user1", type: "deposit", amount: 1000, status: "completed" },
   { id: 2, user: "user1", type: "withdrawal", amount: 200, status: "completed" },
   { id: 3, user: "user2", type: "deposit", amount: 5000, status: "completed" },
@@ -200,11 +83,11 @@ const transactions = [
 // Salida esperada:
 // {
 //   user1: {
-//     balance: 3800,
+//     balance: 3800, --> se calcula restando deposts - withrawals
 //     deposits: 4000,
 //     withdrawals: 200,
 //     transactionCount: 3,
-//     hasLargeTransaction: true // depósito/retiro > 2500
+//     hasLargeTransaction: true --->  depósito/retiro > 2500
 //   },
 //   user2: {
 //     balance: 100,
@@ -215,12 +98,41 @@ const transactions = [
 //   }
 // }
 
-const processTransactions = (transactions) => {
-  // Tu código aquí
+const processtransaction = ( transaction ) => {
+  
+  // 1. filtrar transacciones completadas
+  return transaction.filter( transaction => transaction.status === "completed" )
+  .reduce( ( acc, transaction ) => {
+
+    // 2. inicializar usuario en el acumulador si no existe
+    if (!acc[ transaction.user ] ){
+      acc[ transaction.user ] = { balance: 0, deposits: 0, withdrawals: 0, transactionCount: 0, hasLargeTransaction: false }
+    }
+    
+    // 3. agrupar por usuario y calcular estadísticas
+    acc[ transaction.user ].transactionCount += 1; //contador de transacciones completed
+
+    // depositos realizados 
+    if ( transaction.type === "deposit" ) {
+      acc[ transaction.user ].deposits += transaction.amount;
+      acc[ transaction.user ].balance += transaction.amount;
+      
+      // retiros realizados
+    } else if ( transaction.type === "withdrawal" ) {
+      acc[ transaction.user ].withdrawals += transaction.amount;
+      acc[ transaction.user ].balance -= transaction.amount;
+    }   
+      //  validacion de transaccion mas larga mayor 2500
+    if ( transaction.amount > 2500 ) {
+      acc[ transaction.user ].hasLargeTransaction = true;
+    }
+    return acc;
+
+  }, {})       
 };
 
-console.log("\nEjercicio 5:");
-console.log(processTransactions(transactions));
+console.log("Exercices 5:");
+console.log(processtransaction(transaction));
 
 
 //****** Ejercicio 6: Normalizar y indexar datos relacionales *******//
@@ -264,7 +176,32 @@ const usersWithPosts = [
 // }
 
 const normalizeData = (usersWithPosts) => {
-  // Tu código aquí
+  return usersWithPosts.reduce( ( acc, user ) => {
+
+    // 1. normalizar usuarios
+    acc.users[user.userId] = { userId: user.userId, username: user.username, postIds: user.posts.map( post => post.postId ) };
+
+    // 2. normalizar posts
+    user.posts.forEach( post => {
+      acc.posts[post.postId] = { postId: post.postId, title: post.title, likes: post.likes, authorId: user.userId };
+      acc.stats.totalLikes += post.likes; // total de likes
+
+      // 3. detectar el post con mas likes
+      if (!acc.stats.mostLikedPost || post.likes > acc.posts[acc.stats.mostLikedPost].likes) {
+        acc.stats.mostLikedPost = post.postId;
+      }
+    } );
+
+    // 4. actualizar estadísticas
+    acc.stats.totalUsers = Object.keys(acc.users).length; // total de usuarios
+    acc.stats.totalPosts = Object.keys(acc.posts).length; // total de posts 
+    return acc;
+
+  }, {
+    users: {},
+    posts: {},
+    stats: { totalUsers: 0, totalPosts: 0, totalLikes: 0, mostLikedPost: 0 }
+  } )
 };
 
 console.log("\nEjercicio 6:");
