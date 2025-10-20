@@ -33,22 +33,28 @@ const buildTree = ( flatData ) => {
 
   //1. creo un mapa de id a nodo para acceso rápido
   const idToNodeMap = flatData.reduce( ( acc, data ) => {
-      const { parentId, ...restData } = data;
-      acc[data.id] = { ...restData , children: [] }
-      return acc;
+    const { parentId, ...restData } = data;
+    acc[data.id] = { ...restData , children: [] }
+    return acc;
   }, {} );
+  
 // 2. construyo el árbol asignando hijos a sus padres
-  const root = [] ;
+  let root ;
   flatData.forEach( data  => {
+    
+    // if ( root !== undefined){
+    //   throw new Error("multiple roots detected");
+      
+    // }
+       
     ( data.parentId )
-    ? idToNodeMap[data.parentId].children.push( idToNodeMap[data.id] )
-    : root.push(idToNodeMap[data.id]);
-     
-           
+    ? idToNodeMap[ data.parentId ].children.push( idToNodeMap[ data.id ] )
+    :  root = idToNodeMap[ data.id ]
+   
+      
   })
   return root;
 };
+console.log(buildTree( flatData ));
 
-console.log("Exercices 3:");
-console.log(( buildTree( flatData ) ));
 

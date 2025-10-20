@@ -175,11 +175,11 @@ const usersWithPosts = [
 //   }
 // }
 
-const normalizeData = (usersWithPosts) => {
+const normalizeData = ( usersWithPosts ) => {
   return usersWithPosts.reduce( ( acc, user ) => {
 
     // 1. normalizar usuarios
-    acc.users[user.userId] = { userId: user.userId, username: user.username, postIds: user.posts.map( post => post.postId ) };
+    acc.users[ user.userId ] = { userId: user.userId, username: user.username, postIds: user.posts.map( post => post.postId ) };
 
     // 2. normalizar posts
     user.posts.forEach( post => {
@@ -193,8 +193,8 @@ const normalizeData = (usersWithPosts) => {
     } );
 
     // 4. actualizar estadísticas
-    acc.stats.totalUsers = Object.keys(acc.users).length; // total de usuarios
-    acc.stats.totalPosts = Object.keys(acc.posts).length; // total de posts 
+    acc.stats.totalUsers = Object.keys( acc.users ).length; // total de usuarios
+    acc.stats.totalPosts = Object.keys( acc.posts ).length; // total de posts 
     return acc;
 
   }, {
@@ -204,8 +204,8 @@ const normalizeData = (usersWithPosts) => {
   } )
 };
 
-console.log("\nEjercicio 6:");
-console.log(normalizeData(usersWithPosts));
+console.log("**** Exercices 6 ****");
+console.log( normalizeData( usersWithPosts ));
 
 
 //****** DESAFÍO FINAL: Reduce dentro de Reduce *******//
@@ -231,9 +231,41 @@ const salesData = [
 //   }
 // }
 
-const createMonthlyReport = (salesData) => {
-  // Tu código aquí - Usa reduce dentro de reduce
+const createMonthlyReport = ( salesData ) => {
+
+  return salesData.reduce( ( acc, sale, i, arraySales ) => {
+    const month = sale.date.slice(0, 7); // extraer año-mes
+    if ( !acc[ month ] ) acc[ month ] = {};
+    if ( !acc[ month ][ sale.region ] ){
+      acc[ month ][ sale.region ] = {
+        revenue: 0, products: {},
+        totalQuantity: 0,
+        avgPrice: 0,
+      };
+    }
+
+    if ( !acc[ month ][ sale.region ].products[ sale.product ] ){
+      acc[ month ][ sale.region ].products[ sale.product ] = 0
+    }
+
+    acc[ month ][ sale.region ].products[ sale.product ] += sale.quantity
+    acc[ month ][ sale.region ].totalQuantity += sale.quantity
+    acc[ month ][ sale.region ].revenue += sale.quantity * sale.price
+    acc[ month ][ sale.region ].avgPrice = (acc[ month ][ sale.region ].revenue / acc[ month ][ sale.region ].totalQuantity).toFixed(2) * 1 
+ 
+  
+    if ( i === arraySales.length - 1 ) {
+      for ( const months in acc ){
+        for ( const region in acc[months]){
+          const { totalQuantity, ...result } = acc[months][region]
+          acc[months][region] = result
+        } 
+      }
+    }
+    return acc
+  }, {} );
+ 
 };
 
-console.log("\nDESAFÍO FINAL:");
-console.log(createMonthlyReport(salesData));
+console.log("DESAFÍO FINAL:");
+console.log( createMonthlyReport(salesData));
