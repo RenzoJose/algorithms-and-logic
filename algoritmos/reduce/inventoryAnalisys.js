@@ -90,16 +90,20 @@ const products = [
 const getCategoryPriceRange = ( products ) => {
   return products.reduce ( ( acc, product ) => {
     const { category, price } = product;
-
-    const princeRange =  price < 50 ? 'cheap' : price <= 100 ? 'medium' : 'expensive';
     
-    acc[ category ][ princeRange ].push( product);
+    if ( !acc[category] ) {
+       acc[category] =  { 
+        cheap:[],
+        medium:[],
+        expensive:[],
+      }
+
+    }
+    const rangePrice =  price < 50 ? 'cheap' : price <= 100 ? 'medium' : 'expensive';
+      
+    acc[category][rangePrice].push( product );
     return acc;
-  }, 
-  {
-    electronics: { cheap: [], medium: [], expensive: [] },
-    clothing   : { cheap: [], medium: [], expensive: [] }
-  } );
+  },{});
 }
 
 console.log("**** Exercice 2****");
@@ -196,18 +200,21 @@ const reportInventory = ( inventory ) => {
 
   const report = inventory.reduce(( acc, product ) => {
 
-    if ( !acc[product.category] ){
-      acc[product.category] = { 
+    const { category } = product;
+    if ( !acc[category] ){
+      acc[category] = { 
         totalValue    : 0,
         productAmount : 0, 
         totalPrices   : 0,
         counter       : 0,
+        nameProduct   : []
       }
     }
-    acc[product.category].totalValue    += product.price * product.amount;
-    acc[product.category].productAmount += product.amount;
-    acc[product.category].totalPrices        += product.price;
-    acc[product.category].counter++
+    acc[category].totalValue += product.price * product.amount;
+    acc[category].productAmount += product.amount;
+    acc[category].totalPrices += product.price;
+    acc[category].nameProduct.push( product.name);
+    acc[category].counter++
     return acc
   }, {} );
 
@@ -288,9 +295,9 @@ const transactionsReduction = ( transactions ) => {
   return transactions.reduce(( acc, { user, motions } ) => {
 
     acc[user] = motions.reduce(( acc, motion ) => {
-      acc.balance += ( motion.type === 'income' ? motion.amount : -motion.amount );
+      acc.balance += ( motion.type === 'income' ? motion.amount : -motion.amount ); // si es de type income suma, si no resta
       motion.type === 'income' ? acc.totalIncome++ : acc.totalExpenses++;
-      if (  !acc.maxTransaction || motion.amount > acc.maxTransaction.amount ) acc.maxTransaction = motion;
+      if ( !acc.maxTransaction || motion.amount > acc.maxTransaction.amount ) acc.maxTransaction = motion;
       return acc;
     }, {
 
