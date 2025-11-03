@@ -4,7 +4,7 @@
 // Entrada:
 const flatData = [
   { id: 1, name: "Root", parentId: null },
-  { id: 2, name: "Child 1", parentId: null},
+  { id: 2, name: "Child 1", parentId: 1},
   { id: 3, name: "Child 2", parentId: 1 },
   { id: 4, name: "Grandchild 1", parentId: 2 },
   { id: 5, name: "Grandchild 2", parentId: 2 },
@@ -38,23 +38,23 @@ const buildTree = ( flatData ) => {
     return acc;
   }, {} );
   
-// 2. construyo el árbol asignando hijos a sus padres
+  // 2. construyo el árbol asignando hijos a sus padres
   let root ;
+
+  
+  
   flatData.forEach( data  => {
-    
-    // if ( root !== undefined){
-    //   throw new Error("multiple roots detected");
-      
-    // }
-       
-    ( data.parentId )
-    ? idToNodeMap[ data.parentId ].children.push( idToNodeMap[ data.id ] )
-    :  root = idToNodeMap[ data.id ]
-   
-      
+
+    if (data.parentId == null ){
+     
+      if ( root !== undefined) throw new Error(" multiple Root");
+      root = idToNodeMap[ data.id ]
+    }else{
+      idToNodeMap[ data.parentId ].children.push( idToNodeMap[ data.id ] )
+    }
   })
   return root;
-};
+}; 
 console.log(buildTree( flatData ));
 
 

@@ -40,12 +40,13 @@ const analyzeText = ( arrySentences ) => {
     words.forEach( word => {
       acc.wordFrequency[word] = acc.wordFrequency[word] ? acc.wordFrequency[word] + 1 : 1; // frecuencia de cada palabra
 
-      acc.uniqueWords = new Set([...Object.keys(acc.wordFrequency)]).size ; // cantidad de palabras unicas
-      
-      if (word.length > acc.longestWord.length) acc.longestWord = word; // palabra mas larga
-      acc.averageWordLength = ((totalWordLength += word.length) / acc.totalWords).toFixed(2) * 1; // promedio del largo de palabras
-    }); 
-      acc.sentenceCount += 1; // cantidad de oraciones
+    if (word.length > acc.longestWord.length) acc.longestWord = word; // palabra mas larga
+    acc.averageWordLength = ((totalWordLength += word.length) / acc.totalWords).toFixed(2) * 1; // promedio del largo de palabras
+    
+    });
+
+    acc.uniqueWords = new Set([...Object.keys(acc.wordFrequency)]).size ; // cantidad de palabras unicas
+    acc.sentenceCount += 1; // cantidad de oraciones
     return acc;
   }, {
       totalWords: 0,
@@ -103,31 +104,35 @@ const processtransaction = ( transaction ) => {
   // 1. filtrar transacciones completadas
   return transaction.filter( transaction => transaction.status === "completed" )
   .reduce( ( acc, transaction ) => {
-
+    const { amount, user, type } = transaction
     // 2. inicializar usuario en el acumulador si no existe
-    if (!acc[ transaction.user ] ){
-      acc[ transaction.user ] = { balance: 0, deposits: 0, withdrawals: 0, transactionCount: 0, hasLargeTransaction: false }
+    if (!acc[user] ){
+      acc[user] = { balance: 0, deposits: 0, withdrawals: 0, transactionCount: 0, hasLargeTransaction: false }
     }
     
     // 3. agrupar por usuario y calcular estadísticas
     acc[ transaction.user ].transactionCount += 1; //contador de transacciones completed
 
     // depositos realizados 
-    if ( transaction.type === "deposit" ) {
-      acc[ transaction.user ].deposits += transaction.amount;
-      acc[ transaction.user ].balance += transaction.amount;
+    if ( type === "deposit" ) {
+      acc[user].deposits += amount;
+      acc[user].balance += amount;
       
       // retiros realizados
-    } else if ( transaction.type === "withdrawal" ) {
+    } else if ( type === "withdrawal" ) {
       acc[ transaction.user ].withdrawals += transaction.amount;
       acc[ transaction.user ].balance -= transaction.amount;
     }   
       //  validacion de transaccion mas larga mayor 2500
     if ( transaction.amount > 2500 ) {
-      acc[ transaction.user ].hasLargeTransaction = true;
+      acc[user].hasLargeTransaction = true;
+    }else{
+
+       acc[user].hasLargeTransaction = false;
     }
     return acc;
 
+ 
   }, {})       
 };
 
