@@ -1,4 +1,4 @@
-
+// exercices 1
 // Un teatro tiene filas de asientos. La primera fila tiene 20 asientos, la segunda 23, la tercera 26, y así sucesivamente. ¿Cuántos asientos tiene la fila 15?
 // analisis
 // tomar fila inicial
@@ -11,17 +11,46 @@ const progressRows = ( numberRows ) => 20 + (numberRows - 1) * 3
 console.log(progressRows(15));
 
 
-// dado un numero entero, determinar a que trimestre del año pertenece 
 
-const months = {
-    1: [1, 3],
-    2: [4, 6],    
-    3: [7, 9],
-    4: [10, 12],
-}
+// exercices 2 gusanito 
+// Un gusano está en el fondo de un pozo de 10 metros de profundidad.
+// Cada día sube 3 metros, pero durante la noche resbala 2 metros.
+// ¿Cuántos días necesita para salir del pozo?
+// 💡 Datos
 
-const queaterOfYear = ( number ) => Object.entries(months).find(([ _, [min, max]]) =>
-    number >= min && number <= max)?.[0] ?? `Enter a valid Number between 1 and 12`
+// Profundidad del pozo H = 10
 
-console.log(queaterOfYear(13));
+// Subida diaria A = 3
+
+// Resbalón nocturno B = 2
+
+
+const wronCaseExit = ( depth, dayRaise, nightSlide ) => {
+  let position    = 0;
+  let counterDay  = 0;
+
+  if ( depth <= 0 || dayRaise >= depth) return `no hay dezplamiento con esos valores profundida es ${depth} y dezplamiento es ${dayRaise}`
+ 
+  while ( depth > position ) {
+
+    counterDay++
+    position +=  dayRaise 
+  
+    if ( position >= depth ) return counterDay;
+     
+    position -= nightSlide
+  
+  }
+
+} ; 
+
+
+
+// con formula (AlturaTotal  - subidaDia / subidaDia - BajdaNoche) + 1
+
+ const wronCaseExit2 = ( depth, dayRaise, nightSlide ) => {
+ return Math.ceil(( depth - dayRaise ) / ( dayRaise - nightSlide ) + 1) 
+
+} ; 
+console.log( wronCaseExit2(10, 3, 2)  )
 
