@@ -1,12 +1,120 @@
 
 // 🔹 Ejercicio 5: Convertidor de Monedas con Billetes
+// Algoritmo Greedy
 // Crear una función que dado un monto, devuelva la cantidad mínima de billetes
 // Billetes disponibles: 100, 50, 20, 10, 5, 1
 // Ejemplo: 287 → {100: 2, 50: 1, 20: 1, 10: 1, 5: 1, 1: 2}
 
-function contarBilletes(monto) {
-  // Tu código aquí
+// ?(Algoritmo Greedy)
+// La idea es usar un enfoque codicioso (greedy): siempre tomar el billete de mayor valor posible primero.
+// Pasos lógicos:
+// 1. Crear un arreglo con las denominaciones ordenadas de mayor a menor: [100, 50, 20, 10, 5, 1]
+// 2. Crear un objeto vacío para almacenar los resultados (cantidad de cada billete)
+// 3. Iterar sobre cada denominación:
+
+// preguntas
+// Calcular cuántos billetes de esa denominación caben en el monto restante
+// Si caben al menos 1, guardar esa cantidad en el objeto resultado
+// Restar del monto el valor que ya "gastaste" en esos billetes
+
+// 4. Repetir hasta procesar todas las denominaciones
+// Operaciones clave:
+
+// División entera (Math.floor() o operador ~~): para saber cuántos billetes caben
+
+// Ejemplo: 287 / 100 = 2.87 → 2 billetes de 100
+
+
+// Módulo (%): para obtener el resto después de usar los billetes
+
+// Ejemplo: 287 % 100 = 87 (lo que queda por descomponer)
+
+
+// Flujo mental con el ejemplo 287:
+
+// 287 ÷ 100 = 2 billetes → quedan 87
+// 87 ÷ 50 = 1 billete → quedan 37
+// 37 ÷ 20 = 1 billete → quedan 17
+// 17 ÷ 10 = 1 billete → quedan 7
+// 7 ÷ 5 = 1 billete → quedan 2
+// 2 ÷ 1 = 2 billetes → quedan 0 ✓
+
+const amountInBills = ( amount ) => {
+  
+  const { resul } = [100, 50 , 20, 10, 5, 1].reduce(( acc, curr ) => {
+    
+    let searchBill = Math.floor( acc.remaining / curr) 
+    if ( searchBill ){
+      acc.resul[curr] = searchBill
+    }
+    acc.remaining %= curr
+    return acc
+
+
+  }, { resul: {}, remaining: amount })
+
+  return resul
 }
+
+console.log(amountInBills(null));
+
+
+//! otra solucion 
+const bills = ( amount ) => {
+
+  let remaining = amount;
+  const result = {};
+
+  [100, 50 , 20, 10, 5, 1].forEach( bill => {
+
+    let counter = Math.floor( remaining / bill )
+    
+    if ( counter ) result[bill] = counter;
+
+    remaining = remaining % bill
+
+  })
+
+  return result
+
+
+}
+
+console.log(bills(25));
+
+
+
+
+
+
+//Escribir un programa que pida números , si el número es multiplo de 3, mostrar la palabra "fiz"
+//si el número es multiplo de 5 , mostrar la plabra "Buzz",
+//si el número es multiplo de 3 y 5 al mismo tiempo mostrar "Fizzbuzz"
+//En cualquier otro caso , mostrar número normal
+
+
+
+const showPhraseForNumber = ( number ) => {
+  
+  if (!number || typeof number === 'string') return `Enter Number valid`
+    
+  return Number.isInteger( number / 3) && Number.isInteger( number / 5)
+  ? `FizzBuzz`
+  : Number.isInteger( number / 3) 
+  ? `Fiz`
+  : Number.isInteger(number / 5)
+  ? `Buzz`
+  : number
+ 
+}
+
+console.log(showPhraseForNumber());
+
+
+
+
+
+
 
 // 🔹 Ejercicio 6: Codificador César
 // Crear una función que codifique un texto usando cifrado César (desplazamiento)
@@ -30,16 +138,51 @@ function morseATexto(morse) {
     '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X',
     '-.--': 'Y', '--..': 'Z'
   };
-  // Tu código aquí
+  const codeMorses = morse.split(' ')
+  
+  let result = ''
+  for ( let codeMorse of codeMorses ){
+    for ( let [key, value] of Object.entries(codigoMorse) ){
+          
+      if ( codeMorse === key){
+        result += value
+      }
+    }
+  }
+
+  return result;
 }
+
+
+console.log(morseATexto(".... --- .-.. .-"));
+
 
 // 🔹 Ejercicio 8: Convertidor de Temperatura
 // Crear una función que convierta entre Celsius, Fahrenheit y Kelvin
 // Ejemplo: (100, "C", "F") → 212
 
-function convertirTemperatura(valor, desde, hacia) {
-  // Tu código aquí
+function convertirTemperatura(value = 1, from  = 'C', to = 'F') {
+  const tempFrom = from.toUpperCase(), tempTo = to.toUpperCase(); 
+  
+  if (!/C|F|K/.test(tempFrom) && !/C|F|K/.test(tempTo) ) return `introduce laletra de covercion C, F, K`
+
+  const result = (tempFrom === 'C' && tempTo ==='F'
+  ? `${ ( value *( 9/5)) + 32 } °f ` 
+  : tempFrom === 'F' && tempTo ==='C'
+  ? `${(value - 32) * (5/9) } °C`
+  : tempFrom === 'C' && tempTo ==='K'
+  ? ` ${ value + 273.15 } °k`
+  :  tempFrom === 'K' && tempTo ==='C'
+  ?  `${value - 273.15} °C`
+  : tempFrom === 'F' && tempTo === 'K'
+  ? `${( value - 32) * (5/9) + 273.15} °K` 
+  : `${(( value - 273.15) * (9/5) + 32) } °F` ) 
+
+ return result.replace( /(-?\d+\.\d{0,1})\d*/, "$1")
 }
+
+console.log(convertirTemperatura( ));
+
 
 // 🔹 Ejercicio 9: Número a Sistema Maya
 // Crear una función que convierta un número decimal (0-7999) a sistema vigesimal Maya
@@ -63,177 +206,69 @@ function convertirAlmacenamiento(valor, desde, hacia) {
 // Ejemplo: "978014300723" → "9780143007234"
 
 function calcularEAN13(codigo12digitos) {
-  // Tu código aquí
+ 
 }
 
 // 🔹 Ejercicio 12: Convertidor de Fechas Julianas
 // Crear una función que convierta una fecha a días julianos (desde el 1 enero 4713 AC)
 // Ejemplo: new Date(2000, 0, 1) → 2451545
 
-// function fechaADiaJuliano(fecha) {
-//   // Tu código aquí
-// }
-
-
-// const cadena = "El veloz zorro marrón salta sobre el perro perezoso";
-// const letras = cadena.toLowerCase().match(/[a-z]/gi)
-
-// const unique = new Set( letras )
-// console.log(unique);
-
-
-// escribre una funcion que reciba numeros enteros y que lo combierta en romanos hasta 3999
-
-// analisis
-const romanos = {
-  M   : 1000,
-  CM  : 900,
-  D   : 500,
-  CD  : 400,
-  C   : 100,
-  XC  : 90,
-  L   : 50,
-  XL  : 40,
-  X   : 10,
-  IX  : 9,
-  V   : 5,
-  IV  : 4,
-  I   : 1,
+function fechaADiaJuliano(fecha) {
 }
 
-const changeNumberRoman = ( number ) => {
-
-  if ( !Number.isInteger(number) || number < 1 || number > 3999  ) return `ingresa un numero valido entre 0 - 3999`;
-
-  let numeroRoman = '';
-
-  for ( let [ roman, value ] of Object.entries(romanos)){
-       
-    while (number >= value) {
-
-      numeroRoman +=  roman ;
-
-      number -= value
-
-    }
-  }
-
-  return numeroRoman
-}
-
-console.log(changeNumberRoman(25));
-
-
-
-// Un gusano está en el fondo de un pozo de 10 metros de profundidad.
-// Cada día sube 3 metros, pero durante la noche resbala 2 metros.
-// ¿Cuántos días necesita para salir del pozo?
-// 💡 Datos
-
-// Profundidad del pozo H = 10
-
-// Subida diaria A = 3
-
-// Resbalón nocturno B = 2
-
-
-// const wronCaseExit = ( depth, dailyRaise, nightSlide ) => {
-//   let position    = 0;
-//   let counterDay  = 0;
-//   if ( depth <= 0 || dailyRaise >= depth)return `no hay dezplamiento con esos valores profundida es ${depth} y dezplamiento es ${dailyRaise}`
- 
-//   while ( depth > position ) {
-
-//     counterDay++
-//     position +=  dailyRaise 
-  
-//     if ( position >= depth ) return counterDay;
-     
-//     position -= nightSlide
-  
-//   }
-
-// } ; 
-
- const wronCaseExit = ( depth, dailyRaise, nightSlide ) => {
- return Math.ceil(( depth - dailyRaise ) / ( dailyRaise - nightSlide ) + 1) 
-
-} ; 
-console.log( wronCaseExit(10, 3, 2)  )
 
 
 
 
 
-
-//** Ejercicio 1: Estadísticas de texto avanzadas ***//
-// Analizar un array de oraciones y obtener estadísticas completas
-// Entrada:
-const sentences = [
-  "JavaScript es geñial",
-  "Me encanta programar en JavaScript",
-  "Reduce es muy poderoso",
-  "JavaScript JavaScript JavaScript"
+const productos = [
+  { nombre: "Camiseta", precio: 25 },
+  { nombre: "Pantalón", precio: 40 },
+  { nombre: "Zapatos", precio: 60 },
+  { nombre: "Gorra", precio: 15 }
 ];
-// Salida esperada:
-// {
-//   totalWords: 15,
-//   uniqueWords: 9,
-//   wordFrequency: { javascript: 5, es: 2, genial: 1, me: 1, encanta: 1, ... },
-//   longestWord: "javascript",
-//   averageWordLength: 6.15, ---> totalpalabras / cantidad
-//   sentenceCount: 4--- > oranciones 
-// }
+// Primero, usa .filter() para crear un nuevo array con solo los productos que cuestan más de 30.
 
+// Luego, usa .some() sobre ese nuevo array para comprobar si alguno cuesta más de 50.
 
-const reportMetrics = ( array ) => {
+const searchProduct = (productos) => {
 
-  const totalwords = array.map( element => element.split(' ').length).reduce( (acc, curr) => acc + curr )
+  const products30 = productos.filter(({ precio }) => precio > 30)
 
-  let uniqueWords = [];
-  for ( const item of array ){
-    
-    let splitItems = item.split(' ');
-    uniqueWords = [...uniqueWords, ...splitItems]
-    console.log(splitItems);
-  }
-
-
-  const wordFrequency =  uniqueWords.reduce(( acc, curr) => {
-  acc[curr] = acc[curr] ? acc[curr] + 1 : 1
-  return acc
-  }, {})
-
-  const longestWord = uniqueWords.map( item => item.length ).sort( (a, b) => b - a )[0]
-
-  const averageWordLength = uniqueWords.map( item => item.length )
-  .reduce( (acc, curr, index, array) => {
-    
-   return index === array.length - 1 ? ((acc + curr ) / array.length).toFixed(2) * 1 : acc + curr
-   
-  }) 
-  console.log(averageWordLength);
-  
-
-  const sentenceCount = array.length
-  
-
-  let resultUniqueWords = [...new Set(uniqueWords)].length
-
-
-  return {
-    totalwords,
-    resultUniqueWords,
-    wordFrequency,
-    longestWord,
-    averageWordLength,
-    sentenceCount,
-  }
-  
+  return  products30.some( producto => producto.precio > 50 )
 
 }
 
-console.log(reportMetrics(sentences));
+console.log(searchProduct(productos));
 
 
+// Enunciado: Tienes un array de objetos que representan libros.
+// Cada objeto tiene las propiedades titulo (string),
+// autor (string) y calificacion (number, del 1 al 10).
 
+// pasos
+// 1. crear una funcion para filtar los libreo calificacion >= 8
+// 2. luego transformar los titulos en mayuscula 
+
+
+// retorno
+// Tu tarea es crear una función que, dado este array, devuelva un nuevo 
+// array que contenga solo los títulos de los libros que tienen una calificación
+// mayor o igual a 8, pero escritos en mayúsculas.
+
+const books = [
+  { titulo: 'El Principito', calificacion: 9 },
+  { titulo: 'Cien Años de Soledad', calificacion: 7.5 },
+  { titulo: 'blanca nieves', calificacion: 8.2 }
+]
+
+const bestBooks = ( books ) => books.filter(({ calificacion })=> calificacion >= 8 ).map((book)=> ({
+
+  ...book,
+  titulo: book.titulo.toUpperCase()
+
+
+}))
+
+
+console.log(bestBooks(books));
