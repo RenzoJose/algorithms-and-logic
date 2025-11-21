@@ -54,3 +54,51 @@ const wronCaseExit = ( depth, dayRaise, nightSlide ) => {
 } ; 
 console.log( wronCaseExit2(10, 3, 2)  )
 
+
+
+
+// exercices 2 Suma de los primeros n términos
+// Contexto: A menudo necesitamos calcular la suma total de varios términos consecutivos de una progresión aritmética. Por ejemplo, en finanzas para calcular pagos acumulados.
+// Problema: Dada una progresión aritmética, calcula la suma de los primeros n términos.
+// Fórmula: Sn = (n/2) * (2*a1 + (n-1)*d) o Sn = (n/2) * (a1 + an)
+// Entrada:
+// primerTermino = 5
+// diferencia = 3
+// cantidadTerminos = 10
+
+
+
+// Salida esperada: 185 
+
+// Secuencia: 5, 8, 11, 14, 17, 20, 23, 26, 29, 32
+
+
+
+
+// Suma: 5+8+11+14+17+20+23+26+29+32 = 185
+// (quantityFinally/2) * (2*firts + (quantityFinally-1)* difference)
+const caculatePay = (firts, difference, quantityFinally ) =>{
+  const result = [];
+  result.push(firts)
+  let counter = 0;
+  for (let index = 0; index < (quantityFinally - 1) ; index++) {
+
+    counter = result[index]
+   
+    if( result.length >= 1){
+
+      counter += difference
+      result.push(counter)
+    }
+    
+  }
+ return result.reduce(( acc, curr ) => acc + curr )
+} 
+
+ const wronCaseExit2 = ( depth, dayRaise, nightSlide ) => {
+ return Math.ceil(( depth - dayRaise ) / ( dayRaise - nightSlide ) + 1) 
+
+} ; 
+console.log( wronCaseExit2(10, 3, 2)  )
+
+console.log(caculatePay(5, 3, 10));
