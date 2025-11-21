@@ -95,4 +95,10 @@ const caculatePay = (firts, difference, quantityFinally ) =>{
  return result.reduce(( acc, curr ) => acc + curr )
 } 
 
+ const wronCaseExit2 = ( depth, dayRaise, nightSlide ) => {
+ return Math.ceil(( depth - dayRaise ) / ( dayRaise - nightSlide ) + 1) 
+
+} ; 
+console.log( wronCaseExit2(10, 3, 2)  )
+
 console.log(caculatePay(5, 3, 10));

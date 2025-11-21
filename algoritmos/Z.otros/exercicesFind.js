@@ -116,6 +116,10 @@ console.log(showPhraseForNumber(15));
 
 
 
+function contarBilletes(monto) {
+  // Tu código aquí
+}
+
 // 🔹 Ejercicio 6: Codificador César
 // Crear una función que codifique un texto usando cifrado César (desplazamiento)
 // Ejemplo: ("HOLA", 3) → "KROD"
@@ -215,6 +219,35 @@ function calcularEAN13(codigo12digitos) {
 // Ejemplo: new Date(2000, 0, 1) → 2451545
 
 function fechaADiaJuliano(fecha) {
+// function fechaADiaJuliano(fecha) {
+//   // Tu código aquí
+// }
+
+
+// const cadena = "El veloz zorro marrón salta sobre el perro perezoso";
+// const letras = cadena.toLowerCase().match(/[a-z]/gi)
+
+// const unique = new Set( letras )
+// console.log(unique);
+
+
+// escribre una funcion que reciba numeros enteros y que lo combierta en romanos hasta 3999
+
+// analisis
+const romanos = {
+  M   : 1000,
+  CM  : 900,
+  D   : 500,
+  CD  : 400,
+  C   : 100,
+  XC  : 90,
+  L   : 50,
+  XL  : 40,
+  X   : 10,
+  IX  : 9,
+  V   : 5,
+  IV  : 4,
+  I   : 1,
 }
 
 

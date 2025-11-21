@@ -42,3 +42,4 @@ const romans = ( number ) =>{
 console.log(romans(12));
 
 
+console.log(romans(12));

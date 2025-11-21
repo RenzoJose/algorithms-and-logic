@@ -24,6 +24,14 @@ const recorrerCategorias = (cat, result = []) => {
   }
   
   return result
+    result.push(cat.nombre)
+
+    for (const sub of cat.subcategorias) {
+       recorrerCategorias(sub, result);  // llamada recursiva
+
+    }
+    
+    return result
   
 }
 
@@ -42,6 +50,7 @@ const persona = {
     pais: {
       nombre: "EEUU",
       codigo: 20
+      codigo: "US"
     }
   }
 };
@@ -56,6 +65,11 @@ const recorrerObjeto = (obj, resultados = []) => {
 
       recorrerObjeto(valor, resultados); // recursión para sub-objetos
 
+  for (const key in obj) {
+    const valor = obj[key];
+    
+    if (typeof valor === "object" ) {
+      recorrerObjeto(valor, resultados); // recursión para sub-objetos
     } else {
       resultados.push(valor); // condición base: valor primitivo
     }
