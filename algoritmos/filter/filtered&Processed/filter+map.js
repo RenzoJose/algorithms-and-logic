@@ -36,8 +36,6 @@ const informationEmployees = ( employees ) => {
 console.log(informationEmployees(empleados));
 
 
-
-
  function saludar (nombre) {
   return saludoCompleto(nombre)
 };
@@ -69,7 +67,7 @@ function saludoCompleto ( nombre ) {
 // Salida esperada: true
 
 // diferecia = posicion1 - posicon 0  2
-                  2         
+    
 // si la suma posicion 0 + diferencia === poscion siguiente  true
 // si la suma posicion 2 + diferencia === poscion siguiente  true
 
@@ -102,11 +100,6 @@ const arithmeticProgression = ( arr ) => {
 }
 
 
-
-
-
-
-
 console.log(arithmeticProgression([2, 4, 6, 8, 10]));
 
 
@@ -132,5 +125,71 @@ const searchValue = (firtsNumber, difference, position ) => {
 } 
 
 console.log(searchValue());
+
+
+// El objetivo es escribir una función en JavaScript que determine si una cadena de entrada que contiene solo paréntesis, corchetes y llaves ((), [], {}) está balanceada (es decir, es válida).
+
+
+// 🎯 La Función a Implementar: esValido(s)La función debe aceptar una cadena s y devolver true si la cadena de entrada es válida, y false en caso contrario.
+
+// Reglas de Validación Paréntesis Abiertos Deben Ser Cerrados: Cada paréntesis, corchete o llave de apertura ((, [, {) debe ser cerrado por el mismo tipo de símbolo de cierre ( ), ], }).
+
+
+// Cierres en el Orden Correcto: Los cierres deben ocurrir en el orden correcto. Un corchete no puede cerrar un paréntesis abierto antes.Todos los Símbolos Deben Estar Cerrados: Todos los símbolos de apertura deben tener un símbolo de cierre correspondiente.
+
+
+// 
+// Ejemplos para RenzoEntrada (s)Resultado EsperadoExplicación"()"true Un par válido.
+// entrada          salida
+// "()[]{}"     true Múltiples pares válidos.
+// "(]"         false Cierre incorrecto (abrió (, cerró ]).
+// "{ [ ( ) ] }"     trueParéntesis anidados válidos.
+// "([{"        falseAbierto, pero nunca cerrado.
+// "{[()]"falseFalta el corchete de cierre.
+
+
+// 🛠️ Pista Estratégica para la SoluciónDile que piense en una estructura de datos que solo permite agregar y quitar elementos de un extremo (LIFO - Last In, First Out). pila
+//  Esta estructura es ideal para recordar el último paréntesis abierto y asegurarse de que sea el primero en ser cerrado.¡Este algoritmo pondrá a prueba su lógica en el manejo de estructuras de datos y es muy divertido de optimizar!
+
+const patters = ( str ) => {
+
+    const value = str.trim().split('').every( character => ['(',')','{','}','[',']'].includes(character))
+   
+    if ( !value || !str ) return `Enter a symbol valid [],(),{}`
+    
+    const simbols = {
+        ')':'(',
+        ']':'[',
+        '}':'{',
+    }
+    
+    const pila = [];
+    
+    for (let i = 0; i < str.length; i++) {
+
+        if ( !simbols[ str[i] ] ){
+
+            pila.push(str[i]);
+
+            console.log(pila);
+            
+
+        }else{
+
+            const last =  pila.pop()
+
+            console.log(simbols[ str[i] ]);
+         
+            if (last !== simbols[ str[i] ]) return false;    
+
+        }
+    }
+    return pila.length === 0
+}
+
+console.log(patters('({)(})'));
+
+
+
 
 

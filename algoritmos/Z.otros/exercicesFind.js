@@ -56,7 +56,7 @@ const amountInBills = ( amount ) => {
   return resul
 }
 
-console.log(amountInBills(null));
+console.log(amountInBills(541));
 
 
 //! otra solucion 
@@ -108,7 +108,7 @@ const showPhraseForNumber = ( number ) => {
  
 }
 
-console.log(showPhraseForNumber());
+console.log(showPhraseForNumber(15));
 
 
 
@@ -154,7 +154,7 @@ function morseATexto(morse) {
 }
 
 
-console.log(morseATexto(".... --- .-.. .-"));
+console.log(morseATexto(". -- .. - .-"));
 
 
 // 🔹 Ejercicio 8: Convertidor de Temperatura
@@ -167,16 +167,17 @@ function convertirTemperatura(value = 1, from  = 'C', to = 'F') {
   if (!/C|F|K/.test(tempFrom) && !/C|F|K/.test(tempTo) ) return `introduce laletra de covercion C, F, K`
 
   const result = (tempFrom === 'C' && tempTo ==='F'
-  ? `${ ( value *( 9/5)) + 32 } °f ` 
-  : tempFrom === 'F' && tempTo ==='C'
-  ? `${(value - 32) * (5/9) } °C`
-  : tempFrom === 'C' && tempTo ==='K'
-  ? ` ${ value + 273.15 } °k`
-  :  tempFrom === 'K' && tempTo ==='C'
-  ?  `${value - 273.15} °C`
-  : tempFrom === 'F' && tempTo === 'K'
-  ? `${( value - 32) * (5/9) + 273.15} °K` 
-  : `${(( value - 273.15) * (9/5) + 32) } °F` ) 
+    ? `${ ( value *( 9/5)) + 32 } °f ` 
+    : tempFrom === 'F' && tempTo ==='C'
+    ? `${(value - 32) * (5/9) } °C`
+    : tempFrom === 'C' && tempTo ==='K'
+    ? ` ${ value + 273.15 } °k`
+    :  tempFrom === 'K' && tempTo ==='C'
+    ?  `${value - 273.15} °C`
+    : tempFrom === 'F' && tempTo === 'K'
+    ? `${( value - 32) * (5/9) + 273.15} °K` 
+    : `${(( value - 273.15) * (9/5) + 32) } °F`
+  ) 
 
  return result.replace( /(-?\d+\.\d{0,1})\d*/, "$1")
 }
