@@ -55,7 +55,7 @@ const analyzeText = ( arrySentences ) => {
       longestWord: "",
       averageWordLength: 0,
       sentenceCount: 0
-  } )             
+  })             
 
 };
 console.log("Exercise 2:");

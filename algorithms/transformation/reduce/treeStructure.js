@@ -41,11 +41,9 @@ const buildTree = ( flatData ) => {
   // 2. construyo el árbol asignando hijos a sus padres
   let root ;
 
-  
-  
   flatData.forEach( data  => {
 
-    if (data.parentId == null ){
+    if (data.parentId === null ){
      
       if ( root !== undefined) throw new Error(" multiple Root");
       root = idToNodeMap[ data.id ]

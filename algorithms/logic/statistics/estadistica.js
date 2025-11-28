@@ -25,11 +25,12 @@ const reportMetrics = ( array ) => {
   const totalwords = array.map( element => element.split(' ').length).reduce( (acc, curr) => acc + curr )
 
   let uniqueWords = [];
+  
   for ( const item of array ){
-    
+
     let splitItems = item.split(' ');
     uniqueWords = [...uniqueWords, ...splitItems]
-    console.log(splitItems);
+    
   }
 
 
