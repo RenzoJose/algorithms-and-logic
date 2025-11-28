@@ -350,7 +350,6 @@ const source = data.flatMap(doc => {
 })
 console.log(source);
 
-new Map().keys
 
 
 const indexInverter = (data) => {
