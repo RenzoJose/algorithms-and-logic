@@ -39,22 +39,22 @@ function binarioADecimal( binario ) {
       
   }
   return result
-    binario = String(binario)
-    if ( !(/^[0-1]+$/.test(binario)) ) return `el numero ingresado no es binario `;
+    // binario = String(binario)
+    // if ( !(/^[0-1]+$/.test(binario)) ) return `el numero ingresado no es binario `;
     
-    let result = 0;
-    let reverseBit = binario.split('').reverse().join('');
+    // let result = 0;
+    // let reverseBit = binario.split('').reverse().join('');
     
     
-    for( let i = 0; i < reverseBit.length ; i++ ){
+    // for( let i = 0; i < reverseBit.length ; i++ ){
         
-        if ( reverseBit[i] === '1'){
+    //     if ( reverseBit[i] === '1'){
             
-            result += 2** i
-        }
+    //         result += 2** i
+    //     }
         
-    }
-    return result
+    // }
+    // return result
     
 }
 
@@ -97,30 +97,27 @@ function numberToBit(number) {
 
 console.log(numberToBit('A'));
 
-
-
-
 // formar corta Entero ---> Binario 
 const numberToBit2 = ( number ) => {
-return (
-  !Number.isInteger(number) 
-  ? `introduzca un numero valido`
-  :  number === 0
-  ? 0
-  : number.toString(2)
-)
-        !Number.isInteger(number) 
-        ? `introduzca un numero valido`
-        :  number === 0
-        ? 0
-        : number.toString(2)
-    )
+  return (
+    !Number.isInteger(number) 
+    ? `introduzca un numero valido`
+    :  number <= 0
+    ? 0
+    : number.toString(2)
+  )
+      //     !Number.isInteger(number) 
+      //     ? `introduzca un numero valido`
+      //     :  number === 0
+      //     ? 0
+      //     : number.toString(2)
+      // )
 }
-console.log(numberToBit2(4));
+console.log(numberToBit2(15));
 
 
 
-console.log((' ').toString(2));
+console.log(number.toString());
 
 
 
@@ -173,13 +170,13 @@ const parseoAll = ( number, base) => {
 
 
 console.log(parseoAll(15, 16));
-    if (!(Number.isInteger(number))) return `Enter an integer`
-    if (!( /2|8|10|16/.test( base ) ) || !base ) return `Enter bases 2 - 16`
+//     if (!(Number.isInteger(number))) return `Enter an integer`
+//     if (!( /2|8|10|16/.test( base ) ) || !base ) return `Enter bases 2 - 16`
   
 
-    return number.toString(base)
+//     return number.toString(base)
 
-}
+// }
 
 console.log(parseoAll(4, 2));
 

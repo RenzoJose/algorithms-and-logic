@@ -81,19 +81,17 @@ const showPhraseForNumber = (number) => {
   if (!number || typeof number === "string") return `Enter Number valid`;
 
   return Number.isInteger(number / 3) && Number.isInteger(number / 5)
-    ? `FizzBuzz`
-    : Number.isInteger(number / 3)
-      ? `Fiz`
-      : Number.isInteger(number / 5)
-        ? `Buzz`
-        : number;
+  ? `FizzBuzz`
+  : Number.isInteger(number / 3)
+  ? `Fiz`
+  : Number.isInteger(number / 5)
+  ? `Buzz`
+  : number;
 };
 
-console.log(showPhraseForNumber(15));
+console.log(showPhraseForNumber(25));
 
-function contarBilletes(monto) {
-  // Tu código aquí
-}
+
 
 // 🔹 Ejercicio 6: Codificador César
 // Crear una función que codifique un texto usando cifrado César (desplazamiento)
@@ -136,8 +134,12 @@ function morseATexto(morse) {
     "-.--": "Y",
     "--..": "Z",
   };
-  const codeMorses = morse.split(" ");
 
+  const codeMorses = morse.split(" ");
+  console.log(morse);
+  console.log(codeMorses);
+  
+  
   let result = "";
   for (let codeMorse of codeMorses) {
     for (let [key, value] of Object.entries(codigoMorse)) {
@@ -157,19 +159,21 @@ console.log(morseATexto(". -- .. - .-"));
 // Ejemplo: (100, "C", "F") → 212
 
 function convertirTemperatura(value = 1, from = "C", to = "F") {
-  const tempFrom = from.toUpperCase(),
-    tempTo = to.toUpperCase();
 
-  if (!/C|F|K/.test(tempFrom) && !/C|F|K/.test(tempTo))
-    return `introduce laletra de covercion C, F, K`;
+  if (typeof value !== "number") return `Enter a valid number`;
+
+  const tempFrom = from.toUpperCase(), tempTo = to.toUpperCase();
+
+  if (!/C|F|K/.test(tempFrom) || !/C|F|K/.test(tempTo))
+    return `Enter a valid conversion letter: C, F, K`;
 
   const result =
     tempFrom === "C" && tempTo === "F"
-      ? `${value * (9 / 5) + 32} °f `
+      ? `${value * (9 / 5) + 32} °F `
       : tempFrom === "F" && tempTo === "C"
         ? `${(value - 32) * (5 / 9)} °C`
         : tempFrom === "C" && tempTo === "K"
-          ? ` ${value + 273.15} °k`
+          ? ` ${value + 273.15} °K`
           : tempFrom === "K" && tempTo === "C"
             ? `${value - 273.15} °C`
             : tempFrom === "F" && tempTo === "K"
@@ -179,7 +183,7 @@ function convertirTemperatura(value = 1, from = "C", to = "F") {
   return result.replace(/(-?\d+\.\d{0,1})\d*/, "$1");
 }
 
-console.log(convertirTemperatura());
+console.log(convertirTemperatura( 1, "ñ", "F") );
 
 // 🔹 Ejercicio 9: Número a Sistema Maya
 // Crear una función que convierta un número decimal (0-7999) a sistema vigesimal Maya
@@ -238,6 +242,24 @@ const romanos = {
   I: 1,
 };
 
+const convertToRoman = (number) => {
+
+  let result = "";
+  for ( let [ key, value] of Object.entries(romanos) ) {
+    while (number >= value) {
+      result += key;
+      number -= value;
+    }
+  }
+
+  return result;
+}
+console.log(convertToRoman(1));
+
+
+
+
+
 const productos = [
   { nombre: "Camiseta", precio: 25 },
   { nombre: "Pantalón", precio: 40 },
@@ -284,3 +306,4 @@ const bestBooks = (books) =>
     }));
 
 console.log(bestBooks(books));
+

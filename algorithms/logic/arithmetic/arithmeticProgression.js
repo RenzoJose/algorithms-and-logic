@@ -1,10 +1,11 @@
 // exercices 1
-// Un teatro tiene filas de asientos. La primera fila tiene 20 asientos, la segunda 23, la tercera 26, y así sucesivamente. ¿Cuántos asientos tiene la fila 15?
+// Un teatro tiene filas de asientos. La primera fila tiene 20 asientos, la segunda 23, la tercera 26, y así sucesivamente. 
+// ¿Cuántos asientos tiene la fila 15?
 // analisis
 // tomar fila inicial
 // Progresión: 20, 23, 26, 29... (diferencia comun = 3)
 // buscar por n cantidad filas  = 20 + (15-1) × 3
-// --------------------> FilaInicial  - (filas - 1) * subidaPorFila
+// --------------------> FilaInicial  + (filas - 1) * subidaPorFila
 
 const progressRows = ( numberRows ) => 20 + (numberRows - 1) * 3
 
@@ -44,6 +45,8 @@ const wronCaseExit = ( depth, dayRaise, nightSlide ) => {
 
 } ; 
 
+console.log(wronCaseExit(10, 3, 2));
+
 
 
 // con formula (AlturaTotal  - subidaDia / subidaDia - BajdaNoche) + 1
@@ -66,14 +69,9 @@ console.log( wronCaseExit2(10, 3, 2)  )
 // diferencia = 3
 // cantidadTerminos = 10
 
-
-
 // Salida esperada: 185 
 
 // Secuencia: 5, 8, 11, 14, 17, 20, 23, 26, 29, 32
-
-
-
 
 // Suma: 5+8+11+14+17+20+23+26+29+32 = 185
 // (quantityFinally/2) * (2*firts + (quantityFinally-1)* difference)
@@ -95,10 +93,5 @@ const caculatePay = (firts, difference, quantityFinally ) =>{
  return result.reduce(( acc, curr ) => acc + curr )
 } 
 
- const wronCaseExit2 = ( depth, dayRaise, nightSlide ) => {
- return Math.ceil(( depth - dayRaise ) / ( dayRaise - nightSlide ) + 1) 
+console.log(caculatePay(10, 3, 2));
 
-} ; 
-console.log( wronCaseExit2(10, 3, 2)  )
-
-console.log(caculatePay(5, 3, 10));
